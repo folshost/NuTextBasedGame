@@ -12,8 +12,9 @@ private:
   Room* loc;
   Player* pc;
 public:
+  Env();
   Env(Room* r, Player* p);
-  Env(std::ifstream istrm);
+  Env(std::ifstream& istrm);
 
   std::string get_char_name();
 

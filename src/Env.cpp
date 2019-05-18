@@ -1,10 +1,12 @@
 #include "header/Env.h"
 
+Env::Env(){}
+
 Env::Env(Room* r, Player* p) : root_room(r), pc(p){
   loc = root_room;
 }
 
-Env::Env(std::ifstream istrm){
+Env::Env(std::ifstream& istrm){
   std::string pc_name;
   istrm >> pc_name;
   Player pc_tmp = Player(pc_name);

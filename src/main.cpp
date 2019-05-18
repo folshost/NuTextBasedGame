@@ -7,7 +7,7 @@
 #include "header/Room.h"
 //#include "header/Saves.h"
 
-#include <filesystem>
+//#include <experimental/filesystem>
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -76,7 +76,7 @@ Env previous_game(std::vector<std::string> saves_){
     std::cout << i+1 << ". : " << saves_[i] << std::endl;
   } 
   std::cout << "Which save number would you like?" << std::endl;
-  std::string input;
+  input = "";
   int save_num = -1;
   while(true){
     std::cin >> input;
@@ -85,16 +85,16 @@ Env previous_game(std::vector<std::string> saves_){
       return new_game();
     }
     else{
-      strinstream(input) >> save_num;
+      std::stringstream(input) >> save_num;
     }
     if( save_num > saves_.size() || save_num < 1){
       std::cout << "Please input a valid save number or type 'cancel'" << std::endl;
     }
     else{
       std::cout << "Loading save number " << save_num << std::endl;
-      if(std::filesystem::exists("saves/"+saves_[save_num-1]+".dat"){
-        std::ifstream istrm("saves/"+saves_[save_num-1]+".dat");
-        return Env(istrm); 
+      std::ifstream istrm("saves/"+saves_[save_num-1]+".dat");      
+      if(istrm){
+       return Env(istrm); 
       }
       else{
         std::cout << "File does not exist" << std::endl;
@@ -106,10 +106,12 @@ Env previous_game(std::vector<std::string> saves_){
 
 int main(){
   std::cout << "Welcome to the Stupid Game!" << std::endl;
-  bool saves = std::filesystem::exists("saves.dat");
-  std::vector<std::string> saves_();
-  if( saves )
+  std::ifstream saves_istrm("saves.dat");
+  std::vector<std::string> saves_(0);
+  if( saves_istrm ){
+    saves_istrm.close();
     saves_ = find_saves();
+  }
   Env e;
   if( saves_.size() == 0)
     e = new_game();

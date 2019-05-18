@@ -43,7 +43,7 @@ std::vector<Room> get_raw_rooms(){
       //std::cout << "Getting a Room from file!" << std::endl;
       std::string name = "";
       istrm >> name;
-      Room tmp(name);
+      Room tmp(name, std::vector<Item>());
       //std::cout << "Got a room from file!" << std::endl;
       ret.push_back(tmp);
       if( istrm.bad() || istrm.fail() )
