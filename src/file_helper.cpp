@@ -70,7 +70,7 @@ std::vector<Room> get_rooms(){
     istrm >> num;
     for(int i = 0; i < num; i++){
       //std::cout << "Getting a Room from file!" << std::endl;
-      Room tmp(istrm);
+      Room* tmp = new Room(istrm);
       //std::cout << "Got a room from file!" << std::endl;
       ret.push_back(tmp);
       if( istrm.bad() || istrm.fail() )

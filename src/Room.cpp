@@ -4,6 +4,8 @@
 #include <iostream>
 #include <thread>
 
+Room::Room() : items_(std::vector<Item>()), north(Room()){ }
+
 Room::Room(std::string n, std::vector<Item> i) : name(n), items_(i){ };
 
 Room::Room(std::ifstream& istrm){
@@ -13,6 +15,7 @@ Room::Room(std::ifstream& istrm){
   //std::cout << "\tGot a room name! " << name << std::endl;
   //int in = 0;
   //std::cin >> in;
+  
   if( name == "null" ){
     items_ = std::vector<Item>();
     return;
@@ -25,31 +28,36 @@ Room::Room(std::ifstream& istrm){
     Item tmp = Item(istrm);
     items_.push_back(tmp);
   }
-  Room n(istrm);
-  north = &n;
-  Room e(istrm);
-  east = &e;
-  Room s(istrm);
-  south = &s;
-  Room w(istrm);
-  west = &w;
+  Room n = Room(istrm);
+  north = n;
+  Room e = Room(istrm);
+  east = e;
+  Room s = Room(istrm);
+  south = s;
+  Room w = Room(istrm);
+  west = w;
 }
 
-void Room::setN(Room* n) { north = n; }
-void Room::setE(Room* e) { east = e; }
-void Room::setS(Room* s) { south = s; }
-void Room::setW(Room* w) { west = w; }
+Room::~Room() {
+	std::cout << "I am being destructed, " << name << std::endl;
+}
 
-Room* Room::getN() { return north; }
-Room* Room::getE() { return east; }
-Room* Room::getS() { return south; }
-Room* Room::getW() { return west; }
+void Room::setN(Room& n) { north = n; }
+void Room::setE(Room& e) { east = e; }
+void Room::setS(Room& s) { south = s; }
+void Room::setW(Room& w) { west = w; }
+
+Room& Room::getN() { return north; }
+Room& Room::getE() { return east; }
+Room& Room::getS() { return south; }
+Room& Room::getW() { return west; }
 
 std::string Room::getName(){ 
   return name; 
 }
 
 std::vector<Item>& Room::get_items(){ 
+  std::cout << "Inside get_items" << std::endl;
   return items_;
 }
 
@@ -59,12 +67,14 @@ void Room::set_items(std::vector<Item> items){
 
 void Room::write(std::ofstream& ostrm){
   ostrm << name << std::endl;
+  if (name == "null")
+    return;
   ostrm << items_.size();
-  for(int i = 0; i < items_.size(); i++){
+  for(uint64_t i = 0; i < items_.size(); i++){
     items_[i].write(ostrm);
   }
-  north->write(ostrm);
-  east->write(ostrm);
-  south->write(ostrm);
-  west->write(ostrm);
+  north.write(ostrm);
+  east.write(ostrm);
+  south.write(ostrm);
+  west.write(ostrm);
 }

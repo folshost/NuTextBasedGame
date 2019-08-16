@@ -18,7 +18,10 @@ int main_input_loop(Env e){
   std::string input = "";
   std::cin >> input;
   if( input == "look"){
-    look(e.get_loc()->get_items());
+	auto loc = e.get_loc();
+	std::cout << "Got the location" << std::endl;
+	auto items = loc->get_items();
+    look(items);
   }
   else if( input == "ls" ){
     ls(e.get_loc()->get_items());
@@ -49,9 +52,9 @@ Env new_game(){
   std::cout << "Please enter the character name" << std::endl;
   std::string name;
   std::cin >> name;
-  Player pc(name);
-  Room root_room = get_rooms()[0];
-  Env e(&root_room, &pc);
+  Player* pc = new Player(name);
+  Room* root_room = &(get_rooms()[0]);
+  Env e(root_room, pc);
   return e;
 }
 
@@ -105,7 +108,7 @@ Env previous_game(std::vector<std::string> saves_){
 
 
 int main(){
-  std::cout << "Welcome to the Stupid Game!" << std::endl;
+  std::cout << "Welcome to the NuTextBasedGame!" << std::endl;
   std::ifstream saves_istrm("saves.dat");
   std::vector<std::string> saves_(0);
   if( saves_istrm ){

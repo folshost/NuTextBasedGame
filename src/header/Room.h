@@ -10,22 +10,25 @@
 class Room{
 private:
   std::string name;
-  Room* north,* east,* south,* west;
-  std::vector<Item> items_;
+  Room& north,& east,& south,& west;
+  std::vector<Item>& items_;
 
 public:
+  Room();
   Room(std::string n, std::vector<Item> i);
   Room(std::ifstream& istrm);
+  
+  void operator=(const Room&);
 
-  void setN(Room* n);
-  void setE(Room* e);
-  void setS(Room* s);
-  void setW(Room* w);
+  void setN(Room& n);
+  void setE(Room& e);
+  void setS(Room& s);
+  void setW(Room& w);
 
-  Room* getN();
-  Room* getE();
-  Room* getS();
-  Room* getW();
+  Room& getN();
+  Room& getE();
+  Room& getS();
+  Room& getW();
 
   std::string getName();
 
