@@ -1,8 +1,8 @@
 set(CMAKE_CXX_STANDARD 11)
 
-project(StupidGame)
+project(NuTextBasedGame)
 
-add_executable(StupidGame 
+add_executable(NuTextBasedGame 
   main.cpp 
   Env.cpp 
   Room.cpp 
@@ -10,4 +10,11 @@ add_executable(StupidGame
   Player.cpp 
   helper.cpp
   file_helper.cpp
+  header/Env.h
+  header/file_helper.h
+  header/helper.h
+  header/Item.h
+  header/Player.h
+  header/Room.h
+  header/Saves.h
 )
