@@ -57,30 +57,14 @@ std::vector<Room> get_raw_rooms(){
 
 }
 
-std::vector<Room> get_rooms(){
+std::shared_ptr<Room> get_root_room(){
   //std::cout << "Getting rooms!" << std::endl;
   std::string file_name = "rooms.dat";
   std::ifstream istrm(file_name);
-  if (!istrm.is_open()) {
+  if (!istrm.is_open()) 
     std::cout << "failed to open " << file_name << '\n';
-  } 
-  else {
-    std::vector<Room> ret;
-    int num = 0;
-    istrm >> num;
-    for(int i = 0; i < num; i++){
-      //std::cout << "Getting a Room from file!" << std::endl;
-      Room* tmp = new Room(istrm);
-      //std::cout << "Got a room from file!" << std::endl;
-      ret.push_back(tmp);
-      if( istrm.bad() || istrm.fail() )
-        throw std::runtime_error("Parsing " + file_name + " failed");
-      else if( istrm.eof() )
-        break;
-    }
-    return ret;
-  }
-  return std::vector<Room>();  
+  else
+    return std::make_shared<Room>(istrm);
 }
 
 /*

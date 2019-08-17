@@ -52,8 +52,8 @@ Env new_game(){
   std::cout << "Please enter the character name" << std::endl;
   std::string name;
   std::cin >> name;
-  Player* pc = new Player(name);
-  Room* root_room = &(get_rooms()[0]);
+  std::shared_ptr<Player> pc = std::make_shared<Player>(name);
+  std::shared_ptr<Room> root_room = get_root_room();
   Env e(root_room, pc);
   return e;
 }
