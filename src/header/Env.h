@@ -6,6 +6,7 @@
 
 #include <fstream>
 #include <memory>
+#include <vector>
 
 class Env{
 private:
@@ -15,6 +16,7 @@ private:
 public:
   Env();
   Env(std::shared_ptr<Room> r, std::shared_ptr<Player> p);
+  Env(std::vector<Room> r, std::shared_ptr<Player> p);
   Env(std::ifstream& istrm);
 
   std::string get_char_name();

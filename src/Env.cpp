@@ -1,9 +1,31 @@
 #include "header/Env.h"
 
+#include <ctime>
+#include <random>
+
+namespace detail {
+  int get_random_direction() {
+    return std::rand() % 4;
+  }
+
+  void populate_map(Room& r, std::vector<Room> v) {
+    if (v.size() == 0)
+      return;
+    
+
+  }
+}
+
 Env::Env(){}
 
 Env::Env(std::shared_ptr<Room> r, std::shared_ptr<Player> p) : root_room(r), pc(p){
   loc = root_room;
+}
+
+Env::Env(std::vector<Room> r, std::shared_ptr<Player> p) {
+  std::srand(std::time(nullptr));
+  int root_room = std::rand() % r.size();
+
 }
 
 Env::Env(std::ifstream& istrm){

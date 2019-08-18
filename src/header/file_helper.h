@@ -9,7 +9,7 @@
 
 std::vector<Item> get_items();
 
-std::shared_ptr<Room> get_root_room();
+std::vector<Room> get_rooms();
 
 std::vector<std::string> find_saves();
 

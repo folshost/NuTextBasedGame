@@ -53,7 +53,9 @@ Env new_game(){
   std::string name;
   std::cin >> name;
   std::shared_ptr<Player> pc = std::make_shared<Player>(name);
-  std::shared_ptr<Room> root_room = get_root_room();
+  std::vector<Room> rooms = get_rooms();
+
+  std::shared_ptr<Room> root_room = std::make_shared<Room>(std::ifstream("rooms.dat"));
   Env e(root_room, pc);
   return e;
 }
