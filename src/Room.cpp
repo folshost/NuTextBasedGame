@@ -6,7 +6,7 @@
 
 //Room::Room() : self(std::make_shared<Room>(this)), north(self), east(self), south(self), west(self) { }
 
-//Room::Room(Room& in) : name(in.getName()), items_(in.get_items()), north(in.getN()), east(in.getE()), south(in.getS()), west(in.getW()) {}
+Room::Room(Room& in) : name(in.get_name()), items_(in.get_items()), self(in.get_self()), north(in.getN()), east(in.getE()), south(in.getS()), west(in.getW()) {}
 
 Room::Room(std::string n, std::vector<Item> i) : self(std::shared_ptr<Room>(this)), name(n), items_(i), north(self),
                east(self), south(self), west(self) { }
@@ -47,16 +47,26 @@ Room::~Room() {
 
 void Room::operator=(Room& in)
 {
-  
-  
+  self = std::unique_ptr<Room>(this);
   std::vector<Item> k = in.get_items();
   std::cout << k.size() << std::endl;
   set_items(k);
-  setN(in.getN());
-  setE(in.getE());
-  setS(in.getS());
-  setW(in.getW());
-  
+  if (in.getN() != in.get_self())
+    setN(in.getN());
+  else
+    setN(self);
+  if (in.getE() != in.get_self())
+    setE(in.getE());
+  else
+    setE(self);
+  if (in.getS() != in.get_self())
+    setS(in.getS());
+  else
+    setS(self);
+  if (in.getW() != in.get_self())
+    setW(in.getW());
+  else
+    setW(self);  
 }
 
 void Room::setN(std::shared_ptr<Room> n) { north = n; }
@@ -69,7 +79,7 @@ std::shared_ptr<Room> Room::getE() const { return east; }
 std::shared_ptr<Room> Room::getS() const { return south; }
 std::shared_ptr<Room> Room::getW() const { return west; }
 
-std::string Room::getName(){ 
+std::string Room::get_name(){ 
   return name; 
 }
 

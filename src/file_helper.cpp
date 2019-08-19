@@ -75,7 +75,8 @@ std::vector<Room> get_rooms(){
       // Number of items is a feature of the room, the items themselves are not, for now
       int num_items;
       istrm >> room_name;
-      // Input file can't have white space
+      std::cout << room_name << std::endl;
+      // Room name can't have white space
       std::replace(room_name.begin(), room_name.end(), '_', ' ');
       istrm >> num_items;
       std::vector<Item> items;
@@ -86,7 +87,8 @@ std::vector<Room> get_rooms(){
       //std::cout << "Got a room from file!" << std::endl;
       ret.push_back(tmp);
       if (istrm.bad() || istrm.fail())
-        throw std::runtime_error("Parsing " + file_name + " failed");
+        //throw std::runtime_error("Parsing " + file_name + " failed");
+        std::cout << "Thinks it's bad" << std::endl;
       else if (istrm.eof())
         break;
     }

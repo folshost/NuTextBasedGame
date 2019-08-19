@@ -18,7 +18,7 @@ private:
 
 public:
   //Room();
-  //Room(Room& in);
+  Room(Room& in);
   Room(std::string n, std::vector<Item> i);
   Room(std::ifstream& istrm);
   
@@ -36,7 +36,7 @@ public:
   std::shared_ptr<Room> getS() const;
   std::shared_ptr<Room> getW() const;
 
-  std::string getName();
+  std::string get_name();
 
   std::vector<Item> get_items() const;
 
