@@ -18,13 +18,13 @@ private:
 
 public:
   //Room();
-  Room(Room& in);
+  Room(const Room& in);
   Room(std::string n, std::vector<Item> i);
   Room(std::ifstream& istrm);
   
   ~Room();
 
-  void operator=(Room&);
+  Room& operator=(const Room&);
 
   void setN(std::shared_ptr<Room> n);
   void setE(std::shared_ptr<Room> e);
@@ -36,7 +36,7 @@ public:
   std::shared_ptr<Room> getS() const;
   std::shared_ptr<Room> getW() const;
 
-  std::string get_name();
+  std::string get_name() const;
 
   std::vector<Item> get_items() const;
 
@@ -44,7 +44,7 @@ public:
 
   void write(std::ofstream& ostrm);
 
-  std::shared_ptr<Room> get_self();
+  std::shared_ptr<Room> get_self() const;
 };
 
 

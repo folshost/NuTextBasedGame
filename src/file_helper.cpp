@@ -87,8 +87,8 @@ std::vector<Room> get_rooms(){
       //std::cout << "Got a room from file!" << std::endl;
       ret.push_back(tmp);
       if (istrm.bad() || istrm.fail())
-        //throw std::runtime_error("Parsing " + file_name + " failed");
-        std::cout << "Thinks it's bad" << std::endl;
+        throw std::runtime_error("Parsing " + file_name + " failed");
+        //std::cout << "Thinks it's bad" << std::endl;
       else if (istrm.eof())
         break;
     }

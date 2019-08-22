@@ -6,7 +6,25 @@
 
 //Room::Room() : self(std::make_shared<Room>(this)), north(self), east(self), south(self), west(self) { }
 
-Room::Room(Room& in) : name(in.get_name()), items_(in.get_items()), self(in.get_self()), north(in.getN()), east(in.getE()), south(in.getS()), west(in.getW()) {}
+Room::Room(const Room& in) : name(in.get_name()+"_"), items_(in.get_items()), self(this), north(in.getN()), east(in.getE()), south(in.getS()), west(in.getW()) {
+  std::cout << "Inside copy constructor" << std::endl;
+  if (in.getN() != in.get_self())
+    setN(in.getN());
+  else
+    setN(self);
+  if (in.getE() != in.get_self())
+    setE(in.getE());
+  else
+    setE(self);
+  if (in.getS() != in.get_self())
+    setS(in.getS());
+  else
+    setS(self);
+  if (in.getW() != in.get_self())
+    setW(in.getW());
+  else
+    setW(self);
+}
 
 Room::Room(std::string n, std::vector<Item> i) : self(std::shared_ptr<Room>(this)), name(n), items_(i), north(self),
                east(self), south(self), west(self) { }
@@ -45,8 +63,9 @@ Room::~Room() {
 	std::cout << "I am being destructed, " << name << std::endl;
 }
 
-void Room::operator=(Room& in)
+Room& Room::operator=(const Room& in)
 {
+
   self = std::unique_ptr<Room>(this);
   std::vector<Item> k = in.get_items();
   std::cout << k.size() << std::endl;
@@ -66,7 +85,8 @@ void Room::operator=(Room& in)
   if (in.getW() != in.get_self())
     setW(in.getW());
   else
-    setW(self);  
+    setW(self); 
+  return *this;
 }
 
 void Room::setN(std::shared_ptr<Room> n) { north = n; }
@@ -79,7 +99,7 @@ std::shared_ptr<Room> Room::getE() const { return east; }
 std::shared_ptr<Room> Room::getS() const { return south; }
 std::shared_ptr<Room> Room::getW() const { return west; }
 
-std::string Room::get_name(){ 
+std::string Room::get_name() const{ 
   return name; 
 }
 
@@ -106,4 +126,4 @@ void Room::write(std::ofstream& ostrm){
   west->write(ostrm);
 }
 
-std::shared_ptr<Room> Room::get_self() { return self; }
+std::shared_ptr<Room> Room::get_self() const { return self; }
