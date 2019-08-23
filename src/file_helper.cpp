@@ -83,9 +83,11 @@ std::vector<Room> get_rooms(){
       for (int j = 0; j < num_items; j++) {
         items.push_back(Item(istrm));
       }
-      Room tmp = Room(room_name, items);
+      //Room tmp = ;
       //std::cout << "Got a room from file!" << std::endl;
-      ret.push_back(tmp);
+      {
+        ret.emplace_back(Room(room_name, items));
+      }
       if (istrm.bad() || istrm.fail())
         throw std::runtime_error("Parsing " + file_name + " failed");
         //std::cout << "Thinks it's bad" << std::endl;

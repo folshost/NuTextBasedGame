@@ -12,7 +12,7 @@
 #include <sstream>
 #include <vector>
 
-Room null_room(std::string("null"), std::vector<Item>());
+
 
 int main_input_loop(Env e){
   std::string input = "";
@@ -53,10 +53,13 @@ Env new_game(){
   std::string name;
   std::cin >> name;
   std::shared_ptr<Player> pc = std::make_shared<Player>(name);
-  std::vector<Room> rooms = get_rooms();
-  std::cout << rooms[0].get_self()->get_name() << std::endl;
+  /*
   std::ifstream istrm("rooms.dat");
   std::shared_ptr<Room> root_room = std::make_shared<Room>(istrm);
+  */
+  std::vector<Room> rooms = get_rooms();
+  std::cout << rooms[0].get_name() << std::endl;
+  std::shared_ptr<Room> root_room = rooms[0].get_self();
   Env e(root_room, pc);
   return e;
 }
