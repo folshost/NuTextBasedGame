@@ -9,34 +9,38 @@
 #include <string>
 #include <vector>
 
-class Room{
+class Room : std::enable_shared_from_this<Room>{
 private:
   std::string name;
-  std::shared_ptr<Room> self = std::shared_ptr<Room>(this);
-  std::shared_ptr<Room> north, east, south, west;
+  int north, east, south, west;
   std::vector<Item> items_;
+  std::vector<Room>& room_list;
 
 public:
-  //Room();
+  Room(std::vector<Room>&);
   Room(const Room& in);
-  Room(std::string n, std::vector<Item> i);
-  Room(std::ifstream& istrm);
+  Room(Room&& in);
+  Room(std::string n, std::vector<Item> i, std::vector<Room>& rl);
+  Room(std::ifstream& istrm, std::vector<Room>& rl);
   
   ~Room();
 
   Room& operator=(const Room&);
+  Room& operator=(Room&&);
 
-  void setN(std::shared_ptr<Room> n);
-  void setE(std::shared_ptr<Room> e);
-  void setS(std::shared_ptr<Room> s);
-  void setW(std::shared_ptr<Room> w);
+  void setN(int n);
+  void setE(int e);
+  void setS(int s);
+  void setW(int w);
 
-  std::shared_ptr<Room> getN() const;
-  std::shared_ptr<Room> getE() const;
-  std::shared_ptr<Room> getS() const;
-  std::shared_ptr<Room> getW() const;
+  int getN() const;
+  int getE() const;
+  int getS() const;
+  int getW() const;
 
   std::string get_name() const;
+
+  std::vector<Room>& get_room_list() const;
 
   std::vector<Item> get_items() const;
 
@@ -44,7 +48,6 @@ public:
 
   void write(std::ofstream& ostrm);
 
-  std::shared_ptr<Room> get_self() const;
 };
 
 
