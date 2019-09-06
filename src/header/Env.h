@@ -29,6 +29,10 @@ public:
 
   Room& get_current_room();
 
+  std::vector<Room>& get_rooms_ref();
+
   Player& get_pc();
+
+  void travelDir(int dir);
 };
 #endif

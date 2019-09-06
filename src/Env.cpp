@@ -1,6 +1,7 @@
 #include "header/Env.h"
 
 #include <ctime>
+#include <iostream>
 #include <numeric>
 #include <random>
 
@@ -43,14 +44,14 @@ namespace detail {
       while (rooms_left.back() == total - 1) {
         std::random_shuffle(rooms_left.begin(), rooms_left.end());
       }
-      // Ensure that no out-of-bounds accessed are made with the number of
+      // Ensure that no out-of-bounds accesses are made with the number of
       // neighbors
       int num_neighbors = std::rand() % (rooms_left.size()) % 4;
       std::vector<int> dir_is_used{ 0, 0, 0, 0 };
       int neighbor_list_loc = 0;
       // I suppose I could include self-loops but this would allow
       // the possibility of unreachable map areas (possibly a feature 
-      // tbh[teleporting?]) but not for now
+      // tbh [teleporting?]) but not for now
       for (int i = 0; i < num_neighbors; i++) {
         int dir = get_random_direction();
         while (dir_is_used[dir-1]) {
@@ -83,7 +84,6 @@ Env::Env(Player& p) : pc_(p), rooms_(std::vector<Room>()), loc_(0) {
 
 Env::Env(std::vector<Room>& r, Player& p) : pc_(p), rooms_(r), loc_(0) {
   std::srand(std::time(nullptr));
-  int root_room = std::rand() % r.size();
   detail::populate_map(rooms_);
 }
 
@@ -95,4 +95,25 @@ std::string Env::get_char_name(){
 
 Room& Env::get_current_room(){ return rooms_.at(loc_); }
 
+std::vector<Room>& Env::get_rooms_ref()
+{
+  return rooms_;
+}
+
 Player& Env::get_pc(){ return pc_; }
+
+void Env::travelDir(int dir)
+{
+  if (dir == 0) {
+    std::cout << "Direction not valid" << std::endl;
+    return;
+  }
+  else {
+    if( rooms_[loc_].getDir(dir) == -1)
+      std::cout << "Direction not valid" << std::endl;
+    else {
+      loc_ = rooms_[loc_].getDir(dir);
+    }
+    std::cout << "You are now in the " << rooms_[loc_].get_name() << std::endl;
+  }
+}

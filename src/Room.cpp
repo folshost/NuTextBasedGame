@@ -7,24 +7,24 @@
 
 Room::Room(std::vector<Room>& rl) : name("_null"), room_list(rl), north(-1), east(-1), south(-1), west(-1) { }
 
-Room::Room(const Room& in) : name(in.get_name()+"_"), items_(in.get_items()), room_list(in.get_room_list()), north(in.getN()), east(in.getE()), south(in.getS()), west(in.getW()) 
+Room::Room(const Room& in) : name(in.get_name()), items_(in.get_items()), room_list(in.get_room_list()), north(in.getN()), east(in.getE()), south(in.getS()), west(in.getW()) 
 {
-  std::cout << "Copy constructor" << std::endl;
+  //std::cout << "Copy constructor" << std::endl;
 }
 
-Room::Room(Room && in) : name(in.get_name() + "+"), items_(in.get_items()), room_list(in.get_room_list()), north(in.getN()), east(in.getE()), south(in.getS()), west(in.getW())
+Room::Room(Room && in) : name(in.get_name()), items_(in.get_items()), room_list(in.get_room_list()), north(in.getN()), east(in.getE()), south(in.getS()), west(in.getW())
 {
-  std::cout << "Move construction" << std::endl;
+  //std::cout << "Move construction" << std::endl;
 }
 
 Room::Room(std::string n, std::vector<Item> i, std::vector<Room>& rl) : name(n), items_(i), room_list(rl), north(-1), east(-1), south(-1), west(-1)
 { 
-  std::cout << "Name and items construction" << std::endl;
+  //std::cout << "Name and items construction" << std::endl;
 }
 
 Room::Room(std::ifstream& istrm, std::vector<Room>& rl) : items_(std::vector<Item>()), room_list(rl), north(-1), east(-1), south(-1), west(-1)
 { 
-  std::cout << "istrm construction" << std::endl;
+  //std::cout << "istrm construction" << std::endl;
   istrm >> name;
   
   if( name == "null" ){
@@ -39,13 +39,13 @@ Room::Room(std::ifstream& istrm, std::vector<Room>& rl) : items_(std::vector<Ite
 }
 
 Room::~Room() {
-	std::cout << "I am being destructed, " << name << std::endl;
+	//std::cout << "I am being destructed, " << name << std::endl;
 }
 
 Room& Room::operator=(const Room& in)
 {
   std::vector<Item> k = in.get_items();
-  std::cout << "Copy Assignment: " << k.size() << std::endl;
+  //std::cout << "Copy Assignment: " << k.size() << std::endl;
   set_items(k);
   if (in.getN())
     setN(in.getN());
@@ -62,7 +62,7 @@ Room& Room::operator=(Room && in)
 {
 
   std::vector<Item> k = in.get_items();
-  std::cout << "Move Assignment: " << k.size() << std::endl;
+  //std::cout << "Move Assignment: " << k.size() << std::endl;
   set_items(k);
   if (in.getN())
     setN(in.getN());
@@ -114,7 +114,7 @@ std::string Room::get_name() const{
 }
 
 std::vector<Item> Room::get_items() const{ 
-  std::cout << "Inside get_items" << std::endl;
+  //std::cout << "Inside get_items" << std::endl;
   return items_;
 }
 

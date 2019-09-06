@@ -75,7 +75,7 @@ std::vector<Room> get_rooms(){
       // Number of items is a feature of the room, the items themselves are not, for now
       int num_items;
       istrm >> room_name;
-      std::cout << room_name << std::endl;
+      //std::cout << room_name << std::endl;
       // Room name can't have white space
       std::replace(room_name.begin(), room_name.end(), '_', ' ');
       istrm >> num_items;

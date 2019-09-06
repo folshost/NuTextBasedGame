@@ -14,20 +14,20 @@
 
 
 
-int main_input_loop(Env e){
+int main_input_loop(Env& e){
   std::string input = "";
-  std::cin >> input;
+  std::getline(std::cin, input);
   if( input == "look"){
-	auto loc = e.get_current_room();
-	std::cout << "Got the location" << std::endl;
-	auto items = loc.get_items();
-    look(items);
+	//auto loc = e.get_current_room();
+	//std::cout << "Got the location" << std::endl;
+	//auto items = loc.get_items();
+    look(e);
   }
   else if( input == "ls" ){
-    ls(e.get_current_room().get_items());
+    ls(e);
   }
   else if( input == "i" || input == "inv" || input == "inventory"){
-    inv(e.get_pc().get_inventory());
+    inv(e);
   } 
   else if( input == "get"){
     get_item(e);
@@ -41,7 +41,10 @@ int main_input_loop(Env e){
   else if( input == "quit" || input == "exit" ){
     return 1;
   } 
-  else{
+  else if (input.find("go") != std::string::npos) {
+    go(e, input); 
+  }
+  else {
     std::cout << "Sorry, that does not compute" << std::endl;
   }
   return 0;
