@@ -12,6 +12,15 @@ namespace detail {
     return ret;
   }
 
+  int get_opposite_direction(int dir) {
+    if (dir == 0)
+      return dir;
+    if (dir < 3)
+      return dir + 2;
+    else
+      return (dir + 3) % 5;
+  }
+
   // TODO allow (at least some) accidentally adjacent 
   // rooms access to each other
   void populate_map(std::vector<Room>& ref_room_list) {
@@ -21,23 +30,32 @@ namespace detail {
     int total = ref_room_list.size();
     std::vector<int> rooms_left(total);
     std::iota(rooms_left.begin(), rooms_left.end(), 0);
+    // For ensuring new connections aren't overwriting existing connections
     std::vector<std::vector<int>> already_set(total, std::vector<int>(4, 0));
     while (count < total) {
       std::random_shuffle(rooms_left.begin(), rooms_left.end());
-      int num_neighbors = std::rand() % (total - count) % 4;
+      // If the only room left to be connected is total-1, it may not have 
+      // been connected yet, and since self-loops are disallowed, it might
+      // just be orphaned
+      // Maybe just do a check with the shuffle to ensure total-1 isn't
+      // the last element. If each elem has >= 1 connection the last element
+      // must of necessity have at most 1 connection to add.
+      while (rooms_left.back() == total - 1) {
+        std::random_shuffle(rooms_left.begin(), rooms_left.end());
+      }
+      // Ensure that no out-of-bounds accessed are made with the number of
+      // neighbors
+      int num_neighbors = std::rand() % (rooms_left.size()) % 4;
       std::vector<int> dir_is_used{ 0, 0, 0, 0 };
       int neighbor_list_loc = 0;
       // I suppose I could include self-loops but this would allow
-      // the possibility of unreachable map areas (possibly a feature tbh)
-      // but not for now
-      // TODO - Make sure that if a forward/backward reference pair has been 
-      // established that a new one doesn't overwrite it. I could do that with
-      // a matrix of Nx4 bools (where N = num of rooms)
+      // the possibility of unreachable map areas (possibly a feature 
+      // tbh[teleporting?]) but not for now
       for (int i = 0; i < num_neighbors; i++) {
         int dir = get_random_direction();
         while (dir_is_used[dir-1]) {
           dir = get_random_direction();
-        }
+        }        
         if (rooms_left[neighbor_list_loc] == count)
           neighbor_list_loc++;
         if (already_set[count][dir-1])
@@ -46,12 +64,12 @@ namespace detail {
         ref_room_list[count].setDir(dir, rooms_left[neighbor_list_loc]);
         already_set[count][dir-1] = 1;
         // TODO - Might be interesting to look at making some transitions one-way
-        // Point the other room back to count
-        // TODO - Fix the mess I made by needing to introduce a null direction index value
-        ref_room_list[rooms_left[neighbor_list_loc]].setDir((dir + 2) % 4, count);
-        already_set[rooms_left[neighbor_list_loc]][(dir + 2) % 4] = 1;
+        // Now to point the other room back to count
+        int opp_dir = get_opposite_direction(dir);
+        ref_room_list[rooms_left[neighbor_list_loc]].setDir(opp_dir, count);
+        already_set[rooms_left[neighbor_list_loc]][opp_dir-1] = 1;
         rooms_left.erase(rooms_left.begin() + neighbor_list_loc);
-        dir_is_used[dir] = 1;
+        dir_is_used[dir-1] = 1;
       }
       count++;
     }
