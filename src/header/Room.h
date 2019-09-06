@@ -32,11 +32,13 @@ public:
   void setE(int e);
   void setS(int s);
   void setW(int w);
+  void setDir(int idx, int val);
 
   int getN() const;
   int getE() const;
   int getS() const;
   int getW() const;
+  int getDir(int idx) const;
 
   std::string get_name() const;
 

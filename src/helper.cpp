@@ -11,10 +11,10 @@ void get_item(Env e){
     std::string item_to_get;
     std::cin >> item_to_get;
     bool found = false;
-    std::vector<Item> its = e.get_loc()->get_items();
+    std::vector<Item> its = e.get_current_room().get_items();
     for(auto it = its.begin(); it != its.end(); ){
       if((*it).get_name() == item_to_get){
-        e.get_pc()->pickUpItem(*it);
+        e.get_pc().pickUpItem(*it);
         its.erase(it);
         found = true;
       }

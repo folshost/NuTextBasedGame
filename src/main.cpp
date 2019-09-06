@@ -18,22 +18,22 @@ int main_input_loop(Env e){
   std::string input = "";
   std::cin >> input;
   if( input == "look"){
-	auto loc = e.get_loc();
+	auto loc = e.get_current_room();
 	std::cout << "Got the location" << std::endl;
-	auto items = loc->get_items();
+	auto items = loc.get_items();
     look(items);
   }
   else if( input == "ls" ){
-    ls(e.get_loc()->get_items());
+    ls(e.get_current_room().get_items());
   }
   else if( input == "i" || input == "inv" || input == "inventory"){
-    inv(e.get_pc()->get_inventory());
+    inv(e.get_pc().get_inventory());
   } 
   else if( input == "get"){
     get_item(e);
   }
   else if( input == "ascend"){
-    return ascend(e.get_pc()->get_level());
+    return ascend(e.get_pc().get_level());
   }
   else if( input == "help"){
     help();
@@ -52,15 +52,7 @@ Env new_game(){
   std::cout << "Please enter the character name" << std::endl;
   std::string name;
   std::cin >> name;
-  std::shared_ptr<Player> pc = std::make_shared<Player>(name);
-  /*
-  std::ifstream istrm("rooms.dat");
-  std::shared_ptr<Room> root_room = std::make_shared<Room>(istrm);
-  */
-  std::vector<Room> rooms = get_rooms();
-  std::cout << rooms[0].get_name() << std::endl;
-  std::shared_ptr<Room> root_room = rooms[0].get_self();
-  Env e(root_room, pc);
+  Env e(get_rooms(), Player(name));
   return e;
 }
 

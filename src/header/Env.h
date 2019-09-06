@@ -10,19 +10,25 @@
 
 class Env{
 private:
-  std::shared_ptr<Room> root_room;
-  std::shared_ptr<Room> loc;
-  std::shared_ptr<Player> pc;
+  int loc_;
+  Player pc_;
+  std::vector<Room> rooms_;
 public:
   Env();
-  Env(std::shared_ptr<Room> r, std::shared_ptr<Player> p);
-  Env(std::vector<Room> r, std::shared_ptr<Player> p);
+  Env(Player& p);
+  /*
+  Env(Env&);
+  Env(Env&&);
+  Env& operator=(const Env&);
+  Env& operator=(Env&&);
+  */
+  Env(std::vector<Room>& r, Player& p);
   Env(std::ifstream& istrm);
 
   std::string get_char_name();
 
-  std::shared_ptr<Room> get_loc();
+  Room& get_current_room();
 
-  std::shared_ptr<Player> get_pc();
+  Player& get_pc();
 };
 #endif

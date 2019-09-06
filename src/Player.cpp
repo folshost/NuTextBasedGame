@@ -2,6 +2,11 @@
 
 Player::Player(std::string n) : name(n), total_xp(0){ }
 
+Player::Player(std::ifstream& istrm)
+{
+  istrm >> name;
+}
+
 void Player::pickUpItem(Item n){
   inventory.push_back(n);
   total_xp += n.get_xp();

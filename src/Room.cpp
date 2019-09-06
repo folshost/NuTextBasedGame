@@ -5,7 +5,7 @@
 #include <thread>
 #include <vector>
 
-Room::Room(std::vector<Room>& rl) : name("_null"), room_list(rl) { }
+Room::Room(std::vector<Room>& rl) : name("_null"), room_list(rl), north(0), east(0), south(0), west(0) { }
 
 Room::Room(const Room& in) : name(in.get_name()+"_"), items_(in.get_items()), room_list(in.get_room_list()), north(in.getN()), east(in.getE()), south(in.getS()), west(in.getW()) 
 {
@@ -17,12 +17,12 @@ Room::Room(Room && in) : name(in.get_name() + "+"), items_(in.get_items()), room
   std::cout << "Move construction" << std::endl;
 }
 
-Room::Room(std::string n, std::vector<Item> i, std::vector<Room>& rl) : name(n), items_(i), room_list(rl) 
+Room::Room(std::string n, std::vector<Item> i, std::vector<Room>& rl) : name(n), items_(i), room_list(rl), north(0), east(0), south(0), west(0)
 { 
   std::cout << "Name and items construction" << std::endl;
 }
 
-Room::Room(std::ifstream& istrm, std::vector<Room>& rl) : items_(std::vector<Item>()), room_list(rl) 
+Room::Room(std::ifstream& istrm, std::vector<Room>& rl) : items_(std::vector<Item>()), room_list(rl), north(0), east(0), south(0), west(0)
 { 
   std::cout << "istrm construction" << std::endl;
   istrm >> name;
@@ -79,11 +79,35 @@ void Room::setN(int n) { north = n; }
 void Room::setE(int e) { east = e; }
 void Room::setS(int s) { south = s; }
 void Room::setW(int w) { west = w; }
+void Room::setDir(int idx, int val) {
+  if (idx == 1)
+    setN(val);
+  else if (idx == 2)
+    setE(val);
+  else if (idx == 3)
+    setS(val);
+  else if (idx == 4)
+    setW(val);
+  else
+    throw;
+}
 
 int Room::getN() const { return north; }
 int Room::getE() const { return east; }
 int Room::getS() const { return south; }
 int Room::getW() const { return west; }
+int Room::getDir(int idx) const {
+  if (idx == 1)
+    return north;
+  else if (idx == 2)
+    return east;
+  else if (idx == 3)
+    return south;
+  else if (idx == 4)
+    return west;
+  else
+    throw;
+}
 
 std::string Room::get_name() const{ 
   return name; 

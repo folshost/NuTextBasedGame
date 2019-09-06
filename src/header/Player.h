@@ -7,6 +7,8 @@
 
 class Player{
 private:
+  // hp can be a function of total_xp (an implicit "level" just take total_xp % 10 or something)
+  // it will change on getting more xp and triggering a level
   int hp;
   int total_xp;
   std::string name;
@@ -14,6 +16,7 @@ private:
 
 public:
   Player(std::string n);
+  Player(std::ifstream& istrm);
 
   void pickUpItem(Item n);
 
